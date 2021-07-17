@@ -3,7 +3,6 @@ const createBox = document.querySelector('.create-box');
 const nameInput = document.querySelector('#name-input');
 const hostInput = document.querySelector('#host-input');
 const reviewInput = document.querySelector('#review-input');
-const ratingStars = [...document.getElementsByClassName("rating__star")];
 const addButton = document.querySelector('.add');
 const createButton = document.querySelector('.create-box-actions .primary');
 const closeButton = document.querySelector('.create-box-actions .secondary');
@@ -18,6 +17,7 @@ podcastreviews.addEventListener('click', function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+  const ratingStars = [...document.getElementsByClassName("rating__star")];
   let reviews = JSON.parse(localStorage.getItem('reviews'))
 
   if (!reviews) {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     div.classList.add('podcastreview');
     div.innerHTML = `
-      <a href="#" class="delete">X</a>
+      <a data-id="${review.id}" href="#" class="delete">X</a>
       <h2>Podcast: ${review.name}</h2>  
       <h2>Host: ${review.host}</h2>
       <p>${review.review}</p>
@@ -58,8 +58,13 @@ function getCurrentDate() {
   return new Date().toISOString().slice(0, 10)
 }
 
+function generateId() {
+  return (new Date().valueOf()).toString();
+}
+
 // Show new podcast review when you click the create button
 function createReview() {
+  const ratingStars = [...document.querySelectorAll('.create-box .rating__star')];
   // Store the rating as a number
   const rating = ratingStars.filter(starElement => starElement.classList.contains('checked')).length;
   // Create a new array of star elements
@@ -76,13 +81,14 @@ function createReview() {
     host: hostInput.value,
     review: reviewInput.value,
     rating: rating,
-    date: getCurrentDate()
+    date: getCurrentDate(),
+    id: generateId()
   }
 
   const div = document.createElement('div');
   div.classList.add('podcastreview');
   div.innerHTML = `
-    <a href="#" class="delete">X</a>
+    <a data-id="${reviewEntity.id}" href="#" class="delete">X</a>
     <h2>Podcast: ${reviewEntity.name}</h2>  
     <h2>Host: ${reviewEntity.host}</h2>
     <p>${reviewEntity.review}</p>
@@ -117,17 +123,29 @@ function clearField() {
   <i class="rating__star fa fa-star"></i>
   <i class="rating__star fa fa-star"></i>
   `;
+  createRatingEventListeners();
 }
 
 // Delete Review
 function deleteReview(target) {
+  const id = target.getAttribute('data-id');
+  let reviews = JSON.parse(localStorage.getItem('reviews'));
+  if (reviews === null) {
+    reviews = []
+  }
+  const filteredReviews = reviews.filter(review => {
+    return review.id !== id
+  });
+  localStorage.setItem('reviews', JSON.stringify(filteredReviews));
+  
   if(target.className === 'delete') {
     target.parentElement.remove();
   }
 }
 
 // Star Rating
-function executeRating(stars) {
+function createRatingEventListeners() {
+  const stars = [...document.querySelectorAll(".create-box .rating__star")];
   const starClassActive = "rating__star fa fa-star checked";
   const starClassInactive = "rating__star fa fa-star";
   const starsLength = stars.length;
@@ -145,9 +163,8 @@ function executeRating(stars) {
   });
 }
 
-executeRating(ratingStars);
+createRatingEventListeners();
 
-// Save to localStorage
 
 // Close create box when you click close button
 function handleCloseButton() {
