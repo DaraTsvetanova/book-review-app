@@ -1,38 +1,122 @@
-const bookreviews = document.querySelector('.bookreviews');
+const podcastreviews = document.querySelector('.podcastreviews');
 const createBox = document.querySelector('.create-box');
-const title = document.querySelector('#title');
-const author = document.querySelector('#author');
-const review = document.querySelector('#review');
-const ratingStars = [...document.getElementsByClassName("rating__star")];const addButton = document.querySelector('.add');
+const nameInput = document.querySelector('#name-input');
+const hostInput = document.querySelector('#host-input');
+const reviewInput = document.querySelector('#review-input');
+const ratingStars = [...document.getElementsByClassName("rating__star")];
+const addButton = document.querySelector('.add');
 const createButton = document.querySelector('.create-box-actions .primary');
 const closeButton = document.querySelector('.create-box-actions .secondary');
-// let contentArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+
+// Event Listeners
+addButton.addEventListener('click', handleAddButton);
+createButton.addEventListener('click', createReview);
+closeButton.addEventListener('click', handleCloseButton);
+podcastreviews.addEventListener('click', function(e) {
+  e.preventDefault();
+  deleteReview(e.target);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  let reviews = JSON.parse(localStorage.getItem('reviews'))
+
+  if (!reviews) {
+    reviews = []
+  }
+
+  const reviewElements = reviews.map(review => {
+    const div = document.createElement('div');
+    const ratingElements = new Array(5).fill(null).map((_, i) => {
+      if (i <= review.rating - 1) {
+        return '<i class="rating__star fa fa-star checked"></i>'
+      }
+  
+      return '<i class="rating__star fa fa-star"></i>'
+    });
+    div.classList.add('podcastreview');
+    div.innerHTML = `
+      <a href="#" class="delete">X</a>
+      <h2>Podcast: ${review.name}</h2>  
+      <h2>Host: ${review.host}</h2>
+      <p>${review.review}</p>
+      <div class="podcastrating">${ratingElements.join(' ')}</div>
+      <div class="today">${review.date}</div>
+    `;
+
+    return div.outerHTML
+  }).join('');
+
+  podcastreviews.innerHTML = reviewElements;
+})
 
 // Show create-box when you click the + button
 function handleAddButton() {
   createBox.style.display = 'block';
 }
-// Show new book review when you click create button
-function handleCreateButton() {
+
+function getCurrentDate() {
+  return new Date().toISOString().slice(0, 10)
+}
+
+// Show new podcast review when you click the create button
+function createReview() {
+  // Store the rating as a number
+  const rating = ratingStars.filter(starElement => starElement.classList.contains('checked')).length;
+  // Create a new array of star elements
+  const ratingElements = new Array(ratingStars.length).fill(null).map((_, i) => {
+    if (i <= rating - 1) {
+      return '<i class="rating__star fa fa-star checked"></i>'
+    }
+
+    return '<i class="rating__star fa fa-star"></i>'
+  });
+
+  const reviewEntity = {
+    name: nameInput.value,
+    host: hostInput.value,
+    review: reviewInput.value,
+    rating: rating,
+    date: getCurrentDate()
+  }
+
   const div = document.createElement('div');
-  div.classList.add('bookreview');
+  div.classList.add('podcastreview');
   div.innerHTML = `
-    <h2>${title.value}</h2>
-    <h2>${author.value}</h2>
-    <p>${review.value}</p>
-    <div>${ratingStars.value}</div>
     <a href="#" class="delete">X</a>
-  `
-  bookreviews.appendChild(div);
+    <h2>Podcast: ${reviewEntity.name}</h2>  
+    <h2>Host: ${reviewEntity.host}</h2>
+    <p>${reviewEntity.review}</p>
+    <div class="podcastrating">${ratingElements.join(' ')}</div>
+    <div class="date">${reviewEntity.date}</div>
+  `;
+
+  podcastreviews.prepend(div);
+
+  let reviews = JSON.parse(localStorage.getItem('reviews'))
+
+  if (reviews === null) {
+    reviews = []
+  }
+
+  reviews.unshift(reviewEntity)
+  localStorage.setItem('reviews', JSON.stringify(reviews))
 
   clearField();
+
 }
 
 // Clear field 
 function clearField() {
-  title.value = '';
-  author.value = '';
-  review.value = '';
+  nameInput.value = '';
+  hostInput.value = '';
+  reviewInput.value = '';
+  document.querySelector('.create-box .rating').innerHTML = `
+  <i class="rating__star fa fa-star"></i>
+  <i class="rating__star fa fa-star"></i>
+  <i class="rating__star fa fa-star"></i>
+  <i class="rating__star fa fa-star"></i>
+  <i class="rating__star fa fa-star"></i>
+  `;
 }
 
 // Delete Review
@@ -71,11 +155,5 @@ function handleCloseButton() {
 }
 
 
-// Event Listeners
-addButton.addEventListener('click', handleAddButton);
-createButton.addEventListener('click', handleCreateButton);
-closeButton.addEventListener('click', handleCloseButton);
-bookreviews.addEventListener('click', function(e) {
-  e.preventDefault();
-  deleteReview(e.target);
-});
+
+  

@@ -9,14 +9,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="index.css">
-  <title>Book Reviews</title>
+  <title>Podcast Reviews</title>
 </head>
 
 <body>
   <header>
     <div class="container">
       <div class="nav">
-        <h1>Book Reviews</h1>
+        <h1>Podcast Reviews</h1>
         <div>
           <button class="add">+</button>
         </div>
@@ -25,14 +25,15 @@
   </header>
   <div class="container">
     <div class="create-box">
-      <h2 style="text-align: center;">Write Your Book Review</h2>
-      <label for="title">Title</label>
-      <input type="text" name="title" id="title">
-      <label for="author">Author</label>
-      <input type="text" name="author" id="author">
+      <h2 style="text-align: center;">Write Your Podcast Review</h2>
+      <label for="name">Podcast Name</label>
+      <input type="text" name="name" id="name-input" value="Кариерен Ум">
+      <label for="host">Host</label>
+      <input type="text" name="host" id="host-input" value="Dara Tsvetanova">
       <br>
       <label for="review">Review</label>
-      <textarea id="review" rows="4" cols="50" maxlength="300"></textarea>
+      <textarea id="review-input" rows="4" cols="50"
+        maxlength="300">Много добър подкаст! Супер полезна информация и винаги научавам нещо ново!</textarea>
       <br>
       <div class="rating">
         <i class="rating__star fa fa-star"></i>
@@ -46,7 +47,7 @@
         <button class="primary">Create</button>
       </div>
     </div>
-    <div class="bookreviews"></div>
+    <div class="podcastreviews"></div>
   </div>
 
   <script src="index.js"></script>
