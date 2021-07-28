@@ -6,11 +6,12 @@ const reviewInput = document.querySelector('#review-input');
 const addButton = document.querySelector('.add');
 const createButton = document.querySelector('.create-box-actions .primary');
 const closeButton = document.querySelector('.create-box-actions .secondary');
+const modalOuter = document.querySelector('.modal-outer');
 
 // Event Listeners
 addButton.addEventListener('click', handleAddButton);
 createButton.addEventListener('click', createReview);
-closeButton.addEventListener('click', handleCloseButton);
+closeButton.addEventListener('click', closeModal);
 podcastreviews.addEventListener('click', function(e) {
   e.preventDefault();
   deleteReview(e.target);
@@ -35,12 +36,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     div.classList.add('podcastreview');
     div.innerHTML = `
-      <a data-id="${review.id}" href="#" class="delete">X</a>
+      <div>
+      <a data-id="${review.id}" href="#" class="delete">✖</a>
+      </div>
+      <div class="logo"></div>
+      <div>
       <h2>Podcast: ${review.name}</h2>  
-      <h2>Host: ${review.host}</h2>
+      <h3>Host: ${review.host}</h3>
       <p>${review.review}</p>
       <div class="podcastrating">${ratingElements.join(' ')}</div>
-      <div class="today">${review.date}</div>
+      </div>
+      <div class="date">${review.date}</div>
     `;
 
     return div.outerHTML
@@ -52,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Show create-box when you click the + button
 function handleAddButton() {
   createBox.style.display = 'block';
+  modalOuter.classList.add('open');
 }
 
 function getCurrentDate() {
@@ -88,11 +95,16 @@ function createReview() {
   const div = document.createElement('div');
   div.classList.add('podcastreview');
   div.innerHTML = `
-    <a data-id="${reviewEntity.id}" href="#" class="delete">X</a>
+    <div>
+    <a data-id="${reviewEntity.id}" href="#" class="delete">✖</a>
+    </div>
+    <div class="logo"></div>
+    <div>
     <h2>Podcast: ${reviewEntity.name}</h2>  
-    <h2>Host: ${reviewEntity.host}</h2>
+    <h3>Host: ${reviewEntity.host}</h3>
     <p>${reviewEntity.review}</p>
     <div class="podcastrating">${ratingElements.join(' ')}</div>
+    </div>
     <div class="date">${reviewEntity.date}</div>
   `;
 
@@ -139,7 +151,7 @@ function deleteReview(target) {
   localStorage.setItem('reviews', JSON.stringify(filteredReviews));
   
   if(target.className === 'delete') {
-    target.parentElement.remove();
+    target.parentElement.parentElement.remove();
   }
 }
 
@@ -167,10 +179,26 @@ createRatingEventListeners();
 
 
 // Close create box when you click close button
-function handleCloseButton() {
+function closeModal() {
   createBox.style.display = 'none';
+  modalOuter.classList.remove('open');
 }
 
+modalOuter.addEventListener('click', function(e) {
+  const isOutside = !e.target.closest('.create-box');
+  if(isOutside) {
+      closeModal();
+  }
+});
 
+window.addEventListener('keyup', (e) => {
+  if(e.key === 'Escape') {
+    closeModal();
+  }
+})
 
+// SPOTIFY API 
+// Search Spotify’s catalog for content:
+// GET https://api.spotify.com/v1/search
+// The search API now returns podcast shows and episodes. Set the type parameter to show or episode to query these new types of content.
   

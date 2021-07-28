@@ -14,42 +14,46 @@
 
 <body>
   <header>
-    <div class="container">
-      <div class="nav">
-        <h1>Podcast Reviews</h1>
-        <div>
-          <button class="add">+</button>
-        </div>
+    <div class="nav">
+      <div class="logo">
+        <i class="fa fa-podcast"><span>odcast Reviews</span></i>
+      </div>
+      <div>
+        <button class="add">+</button>
       </div>
     </div>
   </header>
   <div class="container">
-    <div class="create-box">
-      <h2 style="text-align: center;">Write Your Podcast Review</h2>
-      <label for="name">Podcast Name</label>
-      <input type="text" name="name" id="name-input" value="Кариерен Ум">
-      <label for="host">Host</label>
-      <input type="text" name="host" id="host-input" value="Dara Tsvetanova">
-      <br>
-      <label for="review">Review</label>
-      <textarea id="review-input" rows="4" cols="50"
-        maxlength="300">Много добър подкаст! Супер полезна информация и винаги научавам нещо ново!</textarea>
-      <br>
-      <div class="rating">
-        <i class="rating__star fa fa-star"></i>
-        <i class="rating__star fa fa-star"></i>
-        <i class="rating__star fa fa-star"></i>
-        <i class="rating__star fa fa-star"></i>
-        <i class="rating__star fa fa-star"></i>
-      </div>
-      <div class="create-box-actions">
-        <button class="secondary">Close</button>
-        <button class="primary">Create</button>
+    <div class="modal-outer">
+      <div class="modal-inner">
+        <div class="create-box">
+          <h2 style="text-align: center;">Write Your Podcast Review</h2>
+          <label for="name">Podcast Name</label>
+          <input type="text" name="name" id="name-input" value="Кариерен Ум">
+          <label for="host">Host</label>
+          <input type="text" name="host" id="host-input" value="Dara Tsvetanova">
+          <br>
+          <label for="review">Review</label>
+          <textarea id="review-input" rows="4" cols="50"
+            maxlength="230">Много добър подкаст! Супер полезна информация и винаги научавам нещо ново!</textarea>
+          <br>
+          <div class="rating">
+            <i class="rating__star fa fa-star"></i>
+            <i class="rating__star fa fa-star"></i>
+            <i class="rating__star fa fa-star"></i>
+            <i class="rating__star fa fa-star"></i>
+            <i class="rating__star fa fa-star"></i>
+          </div>
+          <div class="create-box-actions">
+            <button class="secondary">Close</button>
+            <button class="primary">Create</button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="podcastreviews"></div>
   </div>
-
+  <!-- <footer><span>Podcast Reviews</span> &copy; 2021, All Rights Reserved</footer> -->
   <script src="index.js"></script>
 </body>
 

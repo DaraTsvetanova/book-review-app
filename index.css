@@ -7,23 +7,34 @@
 body {
   font-family: 'Roboto', sans-serif;
   font-size: 1rem;
-  background-color: white;
+  background-color: #dde0e8;
+  margin-bottom: 40px;
 }
 
 header {
-  background-color: #E56997;
+  background-color: white;
 }
 
-.nav h1 {
-  color: white;
+.nav .fa-podcast {
+  font-size: 1.7rem;
+  color: #FBC740;
+}
+
+.nav span {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #FBC740;
 }
 
 .nav button {
+  display: flex;
   padding: 10px 20px;
+  /* align-items: flex-start; */
   border: 1px solid #ccc;
   background-color: #FBC740;
   color: white;
-  border-radius: 50px;
+  border-radius: 20%;
   box-sizing: border-box;
   font-family: inherit;
   font-size: 2rem;
@@ -70,17 +81,18 @@ header {
   cursor: pointer;
 }
 
-.container {
-  width: 95%;
+/* .container {
+  width: 70%;
   margin: auto;
-}
+} */
 
 .nav {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
   margin: auto;
-  padding: 20px 0;
+  padding: 10px 20px;
 }
 
 .create-box {
@@ -89,8 +101,8 @@ header {
   margin: auto;
   padding: 20px;
   margin-top: 15px;
-  border-radius: 5px;
-  background-color: #f8edeb;
+  border-radius: 5%;
+  background-color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px
 }
 
@@ -99,6 +111,7 @@ header {
   padding: 5px;
   border-radius: 5px;
   font-family: inherit;
+  background-color: #ffffff;
   border: 1px solid #ccc;
 }
 
@@ -120,21 +133,33 @@ header {
 .podcastreview {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-content: space-between;
-  width: 380px;
-  height: 300px;
+  justify-content: flex-start;
+  width: 330px;
+  height: 330px;
   padding: 10px;
   word-wrap: break-word;
   margin: 10px;
-  background-color: #f8edeb;
+  border-radius: 5%;
+  background-color: #ffffff;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 4px;
 }
 
 .podcastreview h2{
   display: flex;
   justify-content: flex-start;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding-left: 10px;
+  padding-bottom: 5px;
+  margin-top: 60px;
+}
+
+.podcastreview h3 {
+  font-size: 0.9rem;
+  font-weight: 300;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  color: #2a2a2a;
 }
 
 .podcastreview a {
@@ -144,12 +169,18 @@ header {
 
 .podcastreview p {
   font-size: 1rem;
-  /* padding: 5px; */
+  padding: 10px 10px;
+}
+
+.podcastrating {
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px 10px;
 }
 
 .rating__star {
   cursor: pointer;
-  /* color: #FBC740; */
+  color: #161a1d;
 }
 
 .checked {
@@ -159,8 +190,7 @@ header {
 .delete {
   /* background-color: #FBC740; */
   color: #FBC740;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.1rem;
   text-align: center;
   text-decoration: none;
   padding: 5px;
@@ -169,13 +199,36 @@ header {
 
 .date {
   display: flex;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   padding: 10px;
+  color: #2a2a2a;
 }
 
 .podcastrating {
   display: flex;
   justify-content: flex-start;
+}
+
+.modal-outer {
+  display: grid;
+  background: hsla(43, 100%, 50%, 0.5);
+  /* hsla(43, 100%, 50%, 0.7) */
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  /* Hide this modal until we need it */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.modal-outer.open {
+  opacity: 1;
+  pointer-events: all;
 }
 
 @media(max-width: 768px) {
